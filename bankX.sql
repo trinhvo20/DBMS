@@ -1,0 +1,58 @@
+create database bankX;
+use bankX;
+
+CREATE TABLE BRANCH (
+    BranchID INT NOT NULL UNIQUE,
+    BranchName VARCHAR(20) NOT NULL,
+    BranchAddress VARCHAR(40) NOT NULL,
+    PRIMARY KEY (BranchID)
+);
+
+CREATE TABLE ACCOUNT (
+    AccNo INT NOT NULL UNIQUE,
+    AccTypeID INT NOT NULL,
+    Branch VARCHAR(20) NOT NULL,
+    Balance FLOAT NOT NULL,
+    PRIMARY KEY (AccNo)
+);
+
+CREATE TABLE CUSTOMER (
+    SSN INT NOT NULL UNIQUE,
+    Name VARCHAR(20) NOT NULL,
+    Phone INT,
+    Address VARCHAR(40) NOT NULL,
+    PRIMARY KEY (SSN)
+);
+
+CREATE TABLE ACCOUNT_TYPE (
+    AccTypeID INT NOT NULL UNIQUE,
+    AccountType VARCHAR(20) NOT NULL,
+    PRIMARY KEY (AccTypeID)
+);
+
+insert into ACCOUNT_TYPE values
+(1, 'Savings'),
+(2, 'Checking'),
+(3, 'Credit Card'),
+(4, 'Mortgage');
+
+CREATE TABLE Linked (
+    BranchID INT NOT NULL UNIQUE,
+    AccNo INT NOT NULL UNIQUE,
+    FOREIGN KEY (BranchID) REFERENCES BRANCH (BranchID),
+    FOREIGN KEY (AccNo) REFERENCES ACCOUNT (AccNo)
+);
+
+CREATE TABLE Possess (
+    SSN INT NOT NULL UNIQUE,
+    AccNo INT NOT NULL UNIQUE,
+    FOREIGN KEY (SSN) REFERENCES CUSTOMER (SSN),
+    FOREIGN KEY (AccNo) REFERENCES ACCOUNT (AccNo)
+);
+
+CREATE TABLE Has (
+    AccTypeID INT NOT NULL UNIQUE,
+    AccNo INT NOT NULL UNIQUE,
+    FOREIGN KEY (AccTypeID) REFERENCES ACCOUNT_TYPE (AccTypeID),
+    FOREIGN KEY (AccNo) REFERENCES ACCOUNT (AccNo)
+);
